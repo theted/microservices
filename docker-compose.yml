@@ -1,0 +1,25 @@
+version: "2"
+services:
+  go:
+    build:
+      context: ./go
+    # command: /go-server
+    ports:
+      - "8090:8090"
+  python:
+    build:
+      context: ./python
+    # command: python3 /server.py
+    ports:
+      - "8100:8100"
+  php:
+    build:
+      context: ./php
+    ports:
+      - "5020:80"
+  # csharp:
+  #   build:
+  #     context: ./c#
+  #   command: /csharp-server
+  #   ports:
+  #     - "5012:5012"

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>"Microservices"</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type="text/css"></style>
+  </head>
+  <body>
+    <div id="main">
+      <h1>Microservices</h1>
+
+      <div id="services"></div>
+    </div>
+    <script>
+      const services = {
+        python: 8100,
+        go: 8090,
+        csharp: 5012,
+        php: 5020,
+      };
+
+      (function () {
+        const now = Date.now();
+        const latencies = {};
+        const servicesDiv = document.getElementById("services");
+        for (const [service, port] of Object.entries(services)) {
+          const serviceDiv = document.createElement("div");
+          serviceDiv.innerHTML = `<h2>${service}</h2>`;
+          servicesDiv.appendChild(serviceDiv);
+
+          fetch(`http://localhost:${port}`)
+            .then((response) => response.text())
+            .then((text) => {
+              const p = document.createElement("p");
+              p.innerHTML = text;
+              serviceDiv.appendChild(p);
+
+              // add to latencies the diff of now and the current time
+              latencies[service] = Date.now() - now;
+
+              console.log({ latencies });
+
+              // the fastest service gets to start the clock
+            });
+        }
+      })();
+    </script>
+  </body>
+</html>
