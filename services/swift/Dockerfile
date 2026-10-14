@@ -3,8 +3,8 @@ COPY collatz.swift /src/
 RUN swiftc -O -static-stdlib -o /collatz /src/collatz.swift
 
 FROM debian:trixie-slim
-RUN apt-get update && apt-get install -y --no-install-recommends socat libstdc++6 && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends libstdc++6 && rm -rf /var/lib/apt/lists/*
 COPY --from=build /collatz /app/collatz
-COPY --from=shim . /shim/
+COPY --from=runner /runner /usr/local/bin/runner
 ENV STEP_CMD="/app/collatz"
-CMD ["/shim/serve"]
+CMD ["runner"]

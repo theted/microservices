@@ -1,4 +1,5 @@
 FROM oven/bun:1.4-alpine
-WORKDIR /app
-COPY server.ts .
-CMD ["bun", "server.ts"]
+COPY --from=runner /runner /usr/local/bin/runner
+COPY collatz.ts /app/
+ENV STEP_CMD="bun /app/collatz.ts"
+CMD ["runner"]

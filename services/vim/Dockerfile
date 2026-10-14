@@ -1,6 +1,6 @@
 FROM alpine:3.24
-RUN apk add --no-cache vim socat
+RUN apk add --no-cache vim
 COPY collatz.vim /app/
-COPY --from=shim . /shim/
+COPY --from=runner /runner /usr/local/bin/runner
 ENV STEP_CMD="vim -Nu NONE -i NONE -es -S /app/collatz.vim"
-CMD ["/shim/serve"]
+CMD ["runner"]

@@ -1,6 +1,6 @@
 FROM alpine:3.24
-RUN apk add --no-cache jq socat
+RUN apk add --no-cache jq
 COPY collatz.jq /app/
-COPY --from=shim . /shim/
+COPY --from=runner /runner /usr/local/bin/runner
 ENV STEP_CMD="jq -f /app/collatz.jq"
-CMD ["/shim/serve"]
+CMD ["runner"]

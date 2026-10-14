@@ -1,3 +1,5 @@
 FROM erlang:29-alpine
+COPY --from=runner /runner /usr/local/bin/runner
 COPY collatz.escript /app/
-CMD ["escript", "/app/collatz.escript"]
+ENV STEP_CMD="escript /app/collatz.escript"
+CMD ["runner"]

@@ -9,9 +9,9 @@ RUN mkdir /ucblogo && tar -xzf /tmp/ucblogo.tar.gz -C /ucblogo --strip-component
     && cd /ucblogo && ./configure --disable-wx --prefix=/opt/ucblogo && make && make install
 
 FROM debian:trixie-slim
-RUN apt-get update && apt-get install -y --no-install-recommends libtinfo6 socat && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends libtinfo6 && rm -rf /var/lib/apt/lists/*
 COPY --from=build /opt/ucblogo /opt/ucblogo
 COPY collatz.lg /app/
-COPY --from=shim . /shim/
+COPY --from=runner /runner /usr/local/bin/runner
 ENV TERM=dumb STEP_CMD="/opt/ucblogo/bin/ucblogo /app/collatz.lg"
-CMD ["/shim/serve"]
+CMD ["runner"]

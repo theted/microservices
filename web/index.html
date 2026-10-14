@@ -15,7 +15,7 @@
         <p class="lede">
           <span id="language-count">A pile of</span> languages pass one number around.
           Each halves it if it's even and makes it 3n + 1 if it's odd, until it falls to 1.
-          Click any language to read its source.
+          Click any language to read its code.
         </p>
       </div>
       <div class="controls">
@@ -54,13 +54,7 @@
       </section>
 
       <section class="card">
-        <div class="card-head">
-          <h2>This chain</h2>
-          <ul class="legend">
-            <li><span class="swatch native"></span>🏅 Serves HTTP itself</li>
-            <li><span class="swatch shim"></span>🩹 Through the shim</li>
-          </ul>
-        </div>
+        <h2>This chain</h2>
         <div class="chart" id="chart">
           <svg id="plot" tabindex="0" role="img" aria-label="Hailstone chart of the current chain. Use the arrow keys to step through it."></svg>
           <div class="tooltip" id="tooltip" hidden></div>
@@ -77,6 +71,10 @@
             <h2>Leaderboard</h2>
             <input id="filter" type="search" placeholder="Filter languages" aria-label="Filter languages" />
           </div>
+          <p class="note">
+            Avg is how long a language takes to run its program once (start, read n, compute,
+            print), timed by the same runner for every language.
+          </p>
           <div class="table-wrap">
             <table class="board">
               <thead>
@@ -84,7 +82,7 @@
                   <th scope="col">Language</th>
                   <th scope="col" class="tier">Tier</th>
                   <th scope="col" class="num">Hops</th>
-                  <th scope="col" class="num">Avg</th>
+                  <th scope="col" class="num" title="Average time to run the program once">Avg</th>
                   <th scope="col" class="num" title="Times it was down">💀</th>
                   <th scope="col" class="num" title="Wrong answers">🚨</th>
                 </tr>

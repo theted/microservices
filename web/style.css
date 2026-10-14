@@ -9,8 +9,7 @@
   --axis: #c3c2b7;
   --border: rgba(11, 11, 11, 0.1);
   --wash: rgba(11, 11, 11, 0.04);
-  --native: #2a78d6;
-  --shim: #eb6834;
+  --series: #2a78d6;
   --critical: #d03b3b;
   --good: #006300;
   --code-keyword: #cf222e;
@@ -33,8 +32,7 @@
     --axis: #383835;
     --border: rgba(255, 255, 255, 0.1);
     --wash: rgba(255, 255, 255, 0.05);
-    --native: #3987e5;
-    --shim: #d95926;
+    --series: #3987e5;
     --good: #0ca30c;
     --code-keyword: #ff7b72;
     --code-string: #a5d6ff;
@@ -56,8 +54,7 @@
   --axis: #383835;
   --border: rgba(255, 255, 255, 0.1);
   --wash: rgba(255, 255, 255, 0.05);
-  --native: #3987e5;
-  --shim: #d95926;
+  --series: #3987e5;
   --good: #0ca30c;
   --code-keyword: #ff7b72;
   --code-string: #a5d6ff;
@@ -195,34 +192,6 @@ main {
   justify-content: space-between;
 }
 
-.legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 16px;
-  margin: 0 0 12px;
-  padding: 0;
-  list-style: none;
-  color: var(--ink-2);
-  font-size: 13px;
-}
-
-.swatch {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  margin-right: 6px;
-  border-radius: 50%;
-  vertical-align: -1px;
-}
-
-.swatch.native {
-  background: var(--native);
-}
-
-.swatch.shim {
-  background: var(--shim);
-}
-
 .chart {
   position: relative;
 }
@@ -235,7 +204,7 @@ main {
 }
 
 #plot:focus-visible {
-  outline: 2px solid var(--native);
+  outline: 2px solid var(--series);
   outline-offset: 4px;
   border-radius: 4px;
 }
@@ -269,12 +238,8 @@ main {
   stroke-width: 2;
 }
 
-#plot .dot.native {
-  fill: var(--native);
-}
-
-#plot .dot.shim {
-  fill: var(--shim);
+#plot .dot {
+  fill: var(--series);
 }
 
 #plot .dot.seed {
@@ -428,6 +393,12 @@ main {
   opacity: 0.55;
 }
 
+.note {
+  margin: -4px 0 12px;
+  color: var(--ink-2);
+  font-size: 12px;
+}
+
 #filter {
   font: inherit;
   font-size: 13px;
@@ -537,9 +508,20 @@ button.lang:hover {
   background: none;
 }
 
+.tab.plumbing {
+  color: var(--muted);
+}
+
+.tabs-label {
+  align-self: center;
+  margin-left: 12px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
 .tab[aria-selected="true"] {
   color: var(--ink);
-  border-bottom-color: var(--native);
+  border-bottom-color: var(--series);
 }
 
 .source-body {
@@ -581,7 +563,7 @@ code.whitespace {
 }
 
 code.whitespace .ws {
-  color: var(--native);
+  color: var(--series);
   font-weight: 700;
 }
 

@@ -1,3 +1,5 @@
 FROM swipl:10.1.18
+COPY --from=runner /runner /usr/local/bin/runner
 COPY collatz.pl /app/
-CMD ["swipl", "/app/collatz.pl"]
+ENV STEP_CMD="swipl /app/collatz.pl"
+CMD ["runner"]

@@ -1,8 +1,9 @@
 FROM golang:1.27-alpine AS build
-WORKDIR /src
-COPY go.mod main.go ./
-RUN CGO_ENABLED=0 go build -ldflags="-s -w" -o /collatz
+COPY collatz.go /src/
+RUN cd /src && CGO_ENABLED=0 go build -ldflags="-s -w" -o /collatz collatz.go
 
-FROM scratch
-COPY --from=build /collatz /collatz
-ENTRYPOINT ["/collatz"]
+FROM alpine:3.24
+COPY --from=runner /runner /usr/local/bin/runner
+COPY --from=build /collatz /app/collatz
+ENV STEP_CMD="/app/collatz"
+CMD ["runner"]

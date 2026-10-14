@@ -4,8 +4,7 @@ COPY collatz.pas /src/
 RUN fpc -O2 -o/collatz /src/collatz.pas
 
 FROM alpine:3.24
-RUN apk add --no-cache socat
 COPY --from=build /collatz /app/collatz
-COPY --from=shim . /shim/
+COPY --from=runner /runner /usr/local/bin/runner
 ENV STEP_CMD="/app/collatz"
-CMD ["/shim/serve"]
+CMD ["runner"]

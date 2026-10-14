@@ -6,9 +6,8 @@ RUN mkdir /lci && tar -xzf /lci.tar.gz -C /lci --strip-components=1 \
     && cd /lci && cmake . && make lci
 
 FROM debian:trixie-slim
-RUN apt-get update && apt-get install -y --no-install-recommends socat && rm -rf /var/lib/apt/lists/*
 COPY --from=build /lci/lci /usr/local/bin/lci
 COPY collatz.lol /app/
-COPY --from=shim . /shim/
+COPY --from=runner /runner /usr/local/bin/runner
 ENV STEP_CMD="lci /app/collatz.lol"
-CMD ["/shim/serve"]
+CMD ["runner"]

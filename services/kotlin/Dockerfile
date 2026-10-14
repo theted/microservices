@@ -7,5 +7,7 @@ COPY collatz.kt /src/
 RUN /opt/kotlinc/bin/kotlinc /src/collatz.kt -include-runtime -d /collatz.jar
 
 FROM eclipse-temurin:25-jre
+COPY --from=runner /runner /usr/local/bin/runner
 COPY --from=build /collatz.jar /app/collatz.jar
-CMD ["java", "-Xmx48m", "-XX:+UseSerialGC", "-jar", "/app/collatz.jar"]
+ENV STEP_CMD="java -XX:TieredStopAtLevel=1 -XX:+UseSerialGC -Xshare:auto -jar /app/collatz.jar"
+CMD ["runner"]

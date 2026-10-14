@@ -1,6 +1,6 @@
 FROM alpine:3.24
-RUN apk add --no-cache nix socat
+RUN apk add --no-cache nix
 COPY collatz.nix /app/
-COPY --from=shim . /shim/
+COPY --from=runner /runner /usr/local/bin/runner
 ENV STEP_CMD='nix-instantiate --eval --arg n "$N" /app/collatz.nix'
-CMD ["/shim/serve"]
+CMD ["runner"]

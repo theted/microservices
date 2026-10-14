@@ -11,5 +11,7 @@ COPY collatz.🍇 /src/
 RUN cd /src && emojicodec collatz.🍇
 
 FROM debian:bookworm-slim
+COPY --from=runner /runner /usr/local/bin/runner
 COPY --from=build /src/collatz /app/collatz
-CMD ["/app/collatz"]
+ENV STEP_CMD="/app/collatz"
+CMD ["runner"]

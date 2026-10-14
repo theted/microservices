@@ -2,11 +2,11 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0-alpine AS build
 WORKDIR /src
 COPY collatz.csproj .
 RUN dotnet restore
-COPY Program.cs .
+COPY collatz.cs .
 RUN dotnet publish -c Release -o /app
 
-FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine
-WORKDIR /app
-COPY --from=build /app .
-ENV ASPNETCORE_HTTP_PORTS=8000
-ENTRYPOINT ["dotnet", "collatz.dll"]
+FROM mcr.microsoft.com/dotnet/runtime:10.0-alpine
+COPY --from=runner /runner /usr/local/bin/runner
+COPY --from=build /app /app
+ENV STEP_CMD="dotnet /app/collatz.dll"
+CMD ["runner"]

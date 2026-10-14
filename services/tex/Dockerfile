@@ -1,6 +1,6 @@
 FROM debian:trixie-slim
-RUN apt-get update && apt-get install -y --no-install-recommends texlive-base socat && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends texlive-base && rm -rf /var/lib/apt/lists/*
 COPY collatz.tex run.sh /app/
-COPY --from=shim . /shim/
+COPY --from=runner /runner /usr/local/bin/runner
 ENV STEP_CMD="/app/run.sh"
-CMD ["/shim/serve"]
+CMD ["runner"]

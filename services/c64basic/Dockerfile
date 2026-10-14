@@ -6,9 +6,8 @@ RUN mkdir /cbmbasic && tar -xzf /cbmbasic.tar.gz -C /cbmbasic --strip-components
     && make -C /cbmbasic
 
 FROM debian:trixie-slim
-RUN apt-get update && apt-get install -y --no-install-recommends socat && rm -rf /var/lib/apt/lists/*
 COPY --from=build /cbmbasic/cbmbasic /usr/local/bin/cbmbasic
 COPY collatz.bas /app/
-COPY --from=shim . /shim/
+COPY --from=runner /runner /usr/local/bin/runner
 ENV STEP_CMD="cbmbasic /app/collatz.bas"
-CMD ["/shim/serve"]
+CMD ["runner"]

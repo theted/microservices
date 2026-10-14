@@ -1,4 +1,5 @@
 FROM python:3.15-slim
-WORKDIR /app
-COPY server.py .
-CMD ["python", "-u", "server.py"]
+COPY --from=runner /runner /usr/local/bin/runner
+COPY collatz.py /app/
+ENV STEP_CMD="python3 /app/collatz.py"
+CMD ["runner"]

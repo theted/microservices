@@ -1,7 +1,9 @@
 FROM rust:1.99-alpine AS build
-COPY main.rs /src/
-RUN rustc -C opt-level=3 -o /collatz /src/main.rs
+COPY collatz.rs /src/
+RUN rustc -C opt-level=3 -o /collatz /src/collatz.rs
 
-FROM scratch
-COPY --from=build /collatz /collatz
-ENTRYPOINT ["/collatz"]
+FROM alpine:3.24
+COPY --from=runner /runner /usr/local/bin/runner
+COPY --from=build /collatz /app/collatz
+ENV STEP_CMD="/app/collatz"
+CMD ["runner"]

@@ -90,7 +90,9 @@ async function ask(service, n) {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const answer = Number(body.match(/-?\d+/g)?.at(-1));
     if (!Number.isSafeInteger(answer)) throw new Error(`no number in "${body.trim().slice(0, 40)}"`);
-    return { answer, ms: performance.now() - started };
+    // The runner times the program itself, so HTTP and the gateway don't count.
+    const run = response.headers.get("Server-Timing")?.match(/dur=([\d.]+)/);
+    return { answer, ms: run ? Number(run[1]) : performance.now() - started };
   } catch (error) {
     return { error: error.name === "TimeoutError" ? "timed out" : error.message };
   }
@@ -157,8 +159,6 @@ async function relay() {
 // --- Rendering ----------------------------------------------------------------
 
 const nameOf = (id) => state.byId.get(id)?.name ?? id;
-const kindOf = (id) => (id ? (state.byId.get(id).native ? "native" : "shim") : "seed");
-const badgeOf = (id) => (state.byId.get(id).native ? "🏅" : "🩹");
 const xMaxOf = (chain) => Math.max(chain.length - 1, 30);
 const peakOf = (chain) => chain.reduce((best, p) => (p.n > best.n ? p : best), chain[0]);
 const langButton = (id, label = nameOf(id)) =>
@@ -223,7 +223,7 @@ function renderBoard() {
       return el(
         "tr",
         down ? { class: "down" } : {},
-        el("td", {}, langButton(service.id, `${badgeOf(service.id)} ${service.name}`)),
+        el("td", {}, langButton(service.id)),
         el("td", { class: "tier" }, service.tier),
         el("td", { class: "num" }, format(s.hops)),
         el("td", { class: "num" }, s.hops ? `${Math.round(avg(s))} ms` : "–"),
@@ -266,8 +266,8 @@ function renderChart() {
   nodes.push(svg("polyline", { class: "line", points: points.join(" ") }));
 
   chain.forEach((p, i) => {
-    const kind = kindOf(p.id) + (p.claimed !== undefined ? " lied" : "");
-    nodes.push(svg("circle", { class: `dot ${kind}`, cx: x(i), cy: y(p.n), r: 4 }));
+    const kind = (p.id ? "" : " seed") + (p.claimed !== undefined ? " lied" : "");
+    nodes.push(svg("circle", { class: `dot${kind}`, cx: x(i), cy: y(p.n), r: 4 }));
   });
 
   // Direct labels: only the peak and the newest point.
@@ -291,9 +291,7 @@ function renderChart() {
     nodes.push(svg("line", { class: "crosshair", x1: x(i), x2: x(i), y1: margin.top, y2: height - margin.bottom }));
     nodes.push(svg("circle", { class: "focus-ring", cx: x(i), cy: y(p.n), r: 7 }));
 
-    const who = p.id
-      ? `${badgeOf(p.id)} ${nameOf(p.id)} · ${Math.round(p.ms)} ms`
-      : "the seed";
+    const who = p.id ? `${nameOf(p.id)} · ${Math.round(p.ms)} ms` : "the seed";
     tooltip.replaceChildren(
       el("span", { class: "muted" }, `step ${i}`),
       el("strong", {}, format(p.n)),
@@ -325,6 +323,7 @@ const HLJS = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0";
 // Languages for the files around the main source; the main file uses services.json's hl.
 const HL_BY_FILE = [
   [/^Dockerfile$/, "dockerfile"],
+  [/\.go$/, "go"],
   [/\.(sh|bash)$|^serve$/, "bash"],
   [/\.js$/, "javascript"],
   [/\.(cs|fs|vb)proj$/, "xml"],
@@ -351,15 +350,19 @@ function loadGrammar(language) {
   return grammars.get(language);
 }
 
+// The language's own file comes first; everything that only gets it running
+// (helper scripts, project files, the Dockerfile, the shared runner) is plumbing.
 async function sourceFiles(service) {
   const listing = await (await fetch(`/src/services/${service.id}/`)).json();
   const names = listing.filter((entry) => entry.type === "file").map((entry) => entry.name);
-  const others = names.filter((name) => name !== service.source && name !== "Dockerfile").sort();
-  const files = [service.source, ...others, ...(names.includes("Dockerfile") ? ["Dockerfile"] : [])].map(
-    (name) => ({ name, path: `services/${service.id}/${name}` }),
-  );
-  if (!service.native) files.push({ name: "shim/handle.sh", path: "shim/handle.sh" });
-  return files;
+  const helpers = names.filter((name) => name !== service.source && name !== "Dockerfile").sort();
+  const inFolder = (name) => ({ name, path: `services/${service.id}/${name}`, plumbing: true });
+  return [
+    { name: service.source, path: `services/${service.id}/${service.source}` },
+    ...helpers.map(inFolder),
+    ...(names.includes("Dockerfile") ? [inFolder("Dockerfile")] : []),
+    { name: "runner/main.go", path: "runner/main.go", plumbing: true },
+  ];
 }
 
 async function openSource(id) {
@@ -367,9 +370,8 @@ async function openSource(id) {
   if (!service) return;
   viewer.service = service;
   viewer.files = [{ name: service.source, path: `services/${id}/${service.source}` }];
-  $("source-title").textContent = `${badgeOf(id)} ${service.name}`;
-  $("source-meta").textContent =
-    `${service.tier} · ${service.native ? "serves HTTP itself" : "HTTP through the shim"} · ${service.blurb}`;
+  $("source-title").textContent = service.name;
+  $("source-meta").textContent = `${service.tier} · ${service.blurb}`;
   showFile(0);
   const dialog = $("source");
   if (!dialog.open) dialog.showModal();
@@ -385,13 +387,18 @@ async function openSource(id) {
 }
 
 function renderTabs() {
-  $("source-tabs").replaceChildren(
-    ...viewer.files.map((file, i) => {
-      const tab = el("button", { type: "button", role: "tab", class: "tab", "aria-selected": String(i === viewer.active) }, file.name);
-      tab.addEventListener("click", () => showFile(i));
-      return tab;
-    }),
-  );
+  const tabs = [];
+  viewer.files.forEach((file, i) => {
+    if (file.plumbing && !viewer.files[i - 1]?.plumbing) tabs.push(el("span", { class: "tabs-label" }, "Plumbing:"));
+    const tab = el(
+      "button",
+      { type: "button", role: "tab", class: file.plumbing ? "tab plumbing" : "tab", "aria-selected": String(i === viewer.active) },
+      file.name,
+    );
+    tab.addEventListener("click", () => showFile(i));
+    tabs.push(tab);
+  });
+  $("source-tabs").replaceChildren(...tabs);
 }
 
 async function showFile(index) {
@@ -414,7 +421,7 @@ async function showFile(index) {
     return;
   }
   const basename = file.name.split("/").pop();
-  const language = index === 0 ? viewer.service.hl : HL_BY_FILE.find(([pattern]) => pattern.test(basename))?.[1];
+  const language = file.plumbing ? HL_BY_FILE.find(([pattern]) => pattern.test(basename))?.[1] : viewer.service.hl;
   const highlighted = language ? await loadGrammar(language) : false;
   if (token !== viewer.token) return;
 

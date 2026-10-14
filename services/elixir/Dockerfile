@@ -1,3 +1,5 @@
 FROM elixir:1.20-alpine
+COPY --from=runner /runner /usr/local/bin/runner
 COPY collatz.exs /app/
-CMD ["elixir", "/app/collatz.exs"]
+ENV STEP_CMD="elixir /app/collatz.exs"
+CMD ["runner"]

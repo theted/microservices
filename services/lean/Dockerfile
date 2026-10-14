@@ -6,8 +6,7 @@ COPY Collatz.lean /src/
 RUN cd /src && /opt/lean/bin/lean -c Collatz.c Collatz.lean && /opt/lean/bin/leanc Collatz.c -o /collatz
 
 FROM debian:trixie-slim
-RUN apt-get update && apt-get install -y --no-install-recommends socat && rm -rf /var/lib/apt/lists/*
 COPY --from=build /collatz /app/collatz
-COPY --from=shim . /shim/
+COPY --from=runner /runner /usr/local/bin/runner
 ENV STEP_CMD="/app/collatz"
-CMD ["/shim/serve"]
+CMD ["runner"]

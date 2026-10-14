@@ -17,7 +17,7 @@ INPUTS="1 2 3 6 7 27 9232 9663 9038141"
 ids=$(grep -o '"id": *"[^"]*"' web/services.json | sed 's/.*"\([^"]*\)"$/\1/')
 
 for service in $(docker compose config --services); do
-    case $service in gateway | sql-db) continue ;; esac
+    case $service in gateway | runner) continue ;; esac
     echo "$ids" | grep -qx "$service" ||
         echo "⚠️  $service is in docker-compose.yml but not in web/services.json"
 done
