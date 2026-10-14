@@ -1,0 +1,10 @@
+# One hailstone step in dc, the reverse-Polish desk calculator from 1971,
+# older than C itself. Registers e and o hold the two branches as macros.
+[2/]se
+[3*1+]so
+# Read n, and remember its parity in register p.
+?d2%sp
+# dc's only control flow: run a register's macro if two numbers are equal.
+lp0=e
+lp1=o
+p

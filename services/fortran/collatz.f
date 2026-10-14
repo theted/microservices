@@ -1,0 +1,12 @@
+C     ONE HAILSTONE STEP IN FORTRAN 77, FIXED FORM: STATEMENTS START IN
+C     COLUMN 7, BECAUSE THAT IS WHERE THE PUNCH CARD SAID THEY START.
+      PROGRAM COLLTZ
+      INTEGER*8 N
+      READ (*, *) N
+      IF (MOD(N, 2_8) .EQ. 0) THEN
+         N = N / 2
+      ELSE
+         N = 3 * N + 1
+      END IF
+      WRITE (*, '(I0)') N
+      END

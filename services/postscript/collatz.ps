@@ -1,0 +1,7 @@
+%!PS
+% One hailstone step in PostScript, the language your printer speaks.
+% Ghostscript runs it with no page in sight.
+/step { dup 2 mod 0 eq { 2 idiv } { 3 mul 1 add } ifelse } def
+
+(%stdin) (r) file 32 string readline pop
+cvi step =

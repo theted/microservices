@@ -1,0 +1,6 @@
+# Build outputs, should anything get built outside Docker
+services/go/collatz
+services/csharp/bin/
+services/csharp/obj/
+services/asm/*.o
+services/asm/collatz

@@ -1,0 +1,16 @@
+💭 One hailstone step in Emojicode, a compiled language written in emoji.
+💭 🆕🔡▶️👂🏼 reads a line, 🔢 parses it, and 🚮 is the remainder.
+
+🏁 🍇
+  🆕🔡▶️👂🏼❗️ ➡️ line
+  ↪️ 🔢 🔧 line❗️ 10❗️ ➡️ n 🍇
+    n ➡️ 🖍🆕 next
+    ↪️ 🤜n 🚮 2🤛 🙌 0 🍇
+      n ➗ 2 ➡️ 🖍next
+    🍉
+    🙅 🍇
+      n ✖️ 3 ➕ 1 ➡️ 🖍next
+    🍉
+    😀 🔡 next 10❗️❗️
+  🍉
+🍉

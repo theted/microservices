@@ -1,25 +1,191 @@
-version: "2"
+# One gateway in front of a pile of languages that each compute one Collatz step.
+# Every language image carries the same runner (runner/), the only HTTP server
+# here: it listens on :8000 and runs the language's program once per request.
+
+x-language: &language
+  additional_contexts:
+    runner: service:runner
+
 services:
+  gateway:
+    image: nginx:1.31-alpine
+    ports:
+      - "127.0.0.1:8080:80"
+    volumes:
+      - ./gateway/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./web:/usr/share/nginx/html:ro
+      - ./services:/srv/src/services:ro
+      - ./runner:/srv/src/runner:ro
+
+  # Built, never started: every language image copies the runner binary out of it.
+  runner:
+    build: ./runner
+    scale: 0
+
+  # Classic
   go:
-    build:
-      context: ./go
-    # command: /go-server
-    ports:
-      - "8090:8090"
+    build: { context: ./services/go, <<: *language }
   python:
-    build:
-      context: ./python
-    # command: python3 /server.py
-    ports:
-      - "8100:8100"
+    build: { context: ./services/python, <<: *language }
   php:
-    build:
-      context: ./php
-    ports:
-      - "5020:80"
-  # csharp:
-  #   build:
-  #     context: ./c#
-  #   command: /csharp-server
-  #   ports:
-  #     - "5012:5012"
+    build: { context: ./services/php, <<: *language }
+  csharp:
+    build: { context: ./services/csharp, <<: *language }
+  typescript:
+    build: { context: ./services/typescript, <<: *language }
+  javascript:
+    build: { context: ./services/javascript, <<: *language }
+  rust:
+    build: { context: ./services/rust, <<: *language }
+  java:
+    build: { context: ./services/java, <<: *language }
+  kotlin:
+    build: { context: ./services/kotlin, <<: *language }
+  c:
+    build: { context: ./services/c, <<: *language }
+  cpp:
+    build: { context: ./services/cpp, <<: *language }
+  ruby:
+    build: { context: ./services/ruby, <<: *language }
+  perl:
+    build: { context: ./services/perl, <<: *language }
+  bash:
+    build: { context: ./services/bash, <<: *language }
+  lua:
+    build: { context: ./services/lua, <<: *language }
+  swift:
+    build: { context: ./services/swift, <<: *language }
+  zig:
+    build: { context: ./services/zig, <<: *language }
+  dart:
+    build: { context: ./services/dart, <<: *language }
+  julia:
+    build: { context: ./services/julia, <<: *language }
+  r:
+    build: { context: ./services/r, <<: *language }
+  elixir:
+    build: { context: ./services/elixir, <<: *language }
+  erlang:
+    build: { context: ./services/erlang, <<: *language }
+  ocaml:
+    build: { context: ./services/ocaml, <<: *language }
+  fsharp:
+    build: { context: ./services/fsharp, <<: *language }
+  powershell:
+    build: { context: ./services/powershell, <<: *language }
+  nim:
+    build: { context: ./services/nim, <<: *language }
+  crystal:
+    build: { context: ./services/crystal, <<: *language }
+  d:
+    build: { context: ./services/d, <<: *language }
+  tcl:
+    build: { context: ./services/tcl, <<: *language }
+
+  # Esolang
+  arnoldc:
+    build: { context: ./services/arnoldc, <<: *language }
+  lolcode:
+    build: { context: ./services/lolcode, <<: *language }
+  shakespeare:
+    build: { context: ./services/shakespeare, <<: *language }
+  brainfuck:
+    build: { context: ./services/brainfuck, <<: *language }
+  befunge:
+    build: { context: ./services/befunge, <<: *language }
+  whitespace:
+    build: { context: ./services/whitespace, <<: *language }
+  intercal:
+    build: { context: ./services/intercal, <<: *language }
+  rockstar:
+    build: { context: ./services/rockstar, <<: *language }
+  emojicode:
+    build: { context: ./services/emojicode, <<: *language }
+
+  # Retro
+  cobol:
+    build: { context: ./services/cobol, <<: *language }
+  fortran:
+    build: { context: ./services/fortran, <<: *language }
+  c64basic:
+    build: { context: ./services/c64basic, <<: *language }
+  forth:
+    build: { context: ./services/forth, <<: *language }
+  pascal:
+    build: { context: ./services/pascal, <<: *language }
+  algol68:
+    build: { context: ./services/algol68, <<: *language }
+  ada:
+    build: { context: ./services/ada, <<: *language }
+  logo:
+    build: { context: ./services/logo, <<: *language }
+  dc:
+    build: { context: ./services/dc, <<: *language }
+  rexx:
+    build: { context: ./services/rexx, <<: *language }
+  vbnet:
+    build: { context: ./services/vbnet, <<: *language }
+
+  # Not a language
+  tex:
+    build: { context: ./services/tex, <<: *language }
+  sql:
+    build: { context: ./services/sql, <<: *language }
+  gawk:
+    build: { context: ./services/gawk, <<: *language }
+  jq:
+    build: { context: ./services/jq, <<: *language }
+  sed:
+    build: { context: ./services/sed, <<: *language }
+  postscript:
+    build: { context: ./services/postscript, <<: *language }
+  vim:
+    build: { context: ./services/vim, <<: *language }
+  spreadsheet:
+    build: { context: ./services/spreadsheet, <<: *language }
+  nix:
+    build: { context: ./services/nix, <<: *language }
+  opentofu:
+    build: { context: ./services/opentofu, <<: *language }
+  m4:
+    build: { context: ./services/m4, <<: *language }
+
+  # Mind-bender
+  prolog:
+    build: { context: ./services/prolog, <<: *language }
+  apl:
+    build: { context: ./services/apl, <<: *language }
+  asm:
+    build: { context: ./services/asm, <<: *language }
+  haskell:
+    build: { context: ./services/haskell, <<: *language }
+  wat:
+    build: { context: ./services/wat, <<: *language }
+  raku:
+    build: { context: ./services/raku, <<: *language }
+  uiua:
+    build: { context: ./services/uiua, <<: *language }
+  lean:
+    build: { context: ./services/lean, <<: *language }
+  sml:
+    build: { context: ./services/sml, <<: *language }
+
+  # Lisp
+  elisp:
+    build: { context: ./services/elisp, <<: *language }
+  guile:
+    build: { context: ./services/guile, <<: *language }
+  babashka:
+    build: { context: ./services/babashka, <<: *language }
+  racket:
+    build: { context: ./services/racket, <<: *language }
+  commonlisp:
+    build: { context: ./services/commonlisp, <<: *language }
+  janet:
+    build: { context: ./services/janet, <<: *language }
+  hy:
+    build: { context: ./services/hy, <<: *language }
+  fennel:
+    build: { context: ./services/fennel, <<: *language }
+  picolisp:
+    build: { context: ./services/picolisp, <<: *language }
