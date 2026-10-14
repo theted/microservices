@@ -1,0 +1,9 @@
+COMMENT
+  One hailstone step in ALGOL 68, the 1968 language that gave the world
+  IF ... FI, CASE ... ESAC and a report nobody could read.
+COMMENT
+BEGIN
+   INT n;
+   read (n);
+   print ((whole (IF n MOD 2 = 0 THEN n OVER 2 ELSE 3 * n + 1 FI, 0), new line))
+END

@@ -1,0 +1,7 @@
+&:2%#v_2/.@
+     >3*1+.@
+
+One hailstone step in Befunge-93, where the program counter walks a 2D grid.
+& reads n, :2% tests its parity, and _ sends the cursor right (even: halve)
+or left into the v (odd: down a row, then triple and add one). Every line
+from here down is never visited, so it can say whatever it likes.

@@ -1,0 +1,4 @@
+#!/bin/sh
+# Entry point for shimmed services: every connection forks a handle.sh.
+echo "shim: serving '$STEP_CMD' on :8000" >&2
+exec socat TCP-LISTEN:8000,reuseaddr,fork EXEC:/shim/handle.sh

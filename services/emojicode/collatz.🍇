@@ -1,0 +1,42 @@
+📦 sockets 🏠
+
+💭 One hailstone step in Emojicode, a compiled language written entirely in emoji.
+💭 🏄 listens, 🙋 accepts, 👂 reads, 💬 sends, 🚮 is the remainder.
+
+🏁 🍇
+  🍺🆕🏄 8000❗️ ➡️ server
+  😀 🔤Emojicode is listening on :8000🔤❗️
+
+  🔁 👍 🍇
+    🍺 🙋 server❗️ ➡️ client
+    🔤HTTP/1.0 400 Bad Request❌r❌nContent-Type: text/plain❌r❌n❌r❌nneed ?n=<positive integer>🔤 ➡️ 🖍🆕 response
+
+    🆗 data 👂 client 4096❗️ 🍇
+      ↪️ 🔡 data❗️ ➡️ request 🍇
+        🔫 request 🔤 🔤❗️ ➡️ words
+        ↪️ 📏 words❓ ▶️ 1 🍇
+          🔫 🐽 words 1❗️ 🔤n=🔤❗️ ➡️ parts
+          ↪️ 📏 parts❓ ▶️ 1 🍇
+            ↪️ 🔢 🐽 parts 1❗️ 10❗️ ➡️ n 🍇
+              ↪️ n ▶️ 0 🍇
+                n ➡️ 🖍🆕 next
+                ↪️ 🤜n 🚮 2🤛 🙌 0 🍇
+                  n ➗ 2 ➡️ 🖍next
+                🍉
+                🙅 🍇
+                  n ✖️ 3 ➕ 1 ➡️ 🖍next
+                🍉
+                🔤HTTP/1.0 200 OK❌r❌nContent-Type: text/plain❌r❌n❌r❌n🧲next🧲🔤 ➡️ 🖍response
+              🍉
+            🍉
+          🍉
+        🍉
+      🍉
+    🍉
+    🙅‍♀️ error 🍇🍉
+
+    🆗 💬 client 📇 response❗️❗️ 🍇🍉
+    🙅‍♀️ error 🍇🍉
+    🚪 client❗️
+  🍉
+🍉

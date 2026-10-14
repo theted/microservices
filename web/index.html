@@ -1,50 +1,118 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>"Microservices"</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <style type="text/css"></style>
+    <title>Hailstone Relay</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" defer></script>
+    <script src="app.js" defer></script>
   </head>
   <body>
-    <div id="main">
-      <h1>Microservices</h1>
+    <header class="top">
+      <div>
+        <h1>Hailstone Relay</h1>
+        <p class="lede">
+          <span id="language-count">A pile of</span> languages pass one number around.
+          Each halves it if it's even and makes it 3n + 1 if it's odd, until it falls to 1.
+          Click any language to read its source.
+        </p>
+      </div>
+      <div class="controls">
+        <button id="toggle" type="button">Pause</button>
+        <button id="reseed" type="button">New seed</button>
+        <label class="delay">
+          Delay
+          <input id="delay" type="range" min="0" max="1500" step="50" value="400" />
+          <output id="delay-out" for="delay">400 ms</output>
+        </label>
+      </div>
+    </header>
 
-      <div id="services"></div>
-    </div>
-    <script>
-      const services = {
-        python: 8100,
-        go: 8090,
-        csharp: 5012,
-        php: 5020,
-      };
+    <main>
+      <section class="tiles" aria-label="Current chain">
+        <div class="tile">
+          <span class="label">Current</span>
+          <span class="value" id="current">–</span>
+          <span class="sub" id="last-hop">&nbsp;</span>
+        </div>
+        <div class="tile">
+          <span class="label">Seed</span>
+          <span class="value" id="seed">–</span>
+          <span class="sub" id="steps">&nbsp;</span>
+        </div>
+        <div class="tile">
+          <span class="label">Peak</span>
+          <span class="value" id="peak">–</span>
+          <span class="sub" id="peak-by">&nbsp;</span>
+        </div>
+        <div class="tile">
+          <span class="label">Chains finished</span>
+          <span class="value" id="chains">0</span>
+          <span class="sub" id="longest">&nbsp;</span>
+        </div>
+      </section>
 
-      (function () {
-        const now = Date.now();
-        const latencies = {};
-        const servicesDiv = document.getElementById("services");
-        for (const [service, port] of Object.entries(services)) {
-          const serviceDiv = document.createElement("div");
-          serviceDiv.innerHTML = `<h2>${service}</h2>`;
-          servicesDiv.appendChild(serviceDiv);
+      <section class="card">
+        <div class="card-head">
+          <h2>This chain</h2>
+          <ul class="legend">
+            <li><span class="swatch native"></span>🏅 Serves HTTP itself</li>
+            <li><span class="swatch shim"></span>🩹 Through the shim</li>
+          </ul>
+        </div>
+        <div class="chart" id="chart">
+          <svg id="plot" tabindex="0" role="img" aria-label="Hailstone chart of the current chain. Use the arrow keys to step through it."></svg>
+          <div class="tooltip" id="tooltip" hidden></div>
+        </div>
+      </section>
 
-          fetch(`http://localhost:${port}`)
-            .then((response) => response.text())
-            .then((text) => {
-              const p = document.createElement("p");
-              p.innerHTML = text;
-              serviceDiv.appendChild(p);
+      <div class="split">
+        <section class="card">
+          <h2>Relay log</h2>
+          <ol class="log" id="log"></ol>
+        </section>
+        <section class="card">
+          <div class="card-head">
+            <h2>Leaderboard</h2>
+            <input id="filter" type="search" placeholder="Filter languages" aria-label="Filter languages" />
+          </div>
+          <div class="table-wrap">
+            <table class="board">
+              <thead>
+                <tr>
+                  <th scope="col">Language</th>
+                  <th scope="col" class="tier">Tier</th>
+                  <th scope="col" class="num">Hops</th>
+                  <th scope="col" class="num">Avg</th>
+                  <th scope="col" class="num" title="Times it was down">💀</th>
+                  <th scope="col" class="num" title="Wrong answers">🚨</th>
+                </tr>
+              </thead>
+              <tbody id="board"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </main>
 
-              // add to latencies the diff of now and the current time
-              latencies[service] = Date.now() - now;
-
-              console.log({ latencies });
-
-              // the fastest service gets to start the clock
-            });
-        }
-      })();
-    </script>
+    <dialog id="source" aria-labelledby="source-title">
+      <div class="source-panel">
+        <div class="source-head">
+          <div>
+            <h2 id="source-title"></h2>
+            <p id="source-meta"></p>
+          </div>
+          <form method="dialog">
+            <button type="submit">Close</button>
+          </form>
+        </div>
+        <div class="tabs" id="source-tabs" role="tablist" aria-label="Files"></div>
+        <div class="source-body" id="source-body">
+          <pre class="gutter" id="source-gutter" aria-hidden="true"></pre>
+          <pre class="code"><code id="source-code"></code></pre>
+        </div>
+      </div>
+    </dialog>
   </body>
 </html>

@@ -1,0 +1,13 @@
+% One hailstone step in plain TeX. \n is defined on the command line.
+\count255=\n
+\count254=\count255
+\divide\count254 by 2
+\multiply\count254 by 2
+\ifnum\count254=\count255
+  \divide\count255 by 2
+\else
+  \multiply\count255 by 3
+  \advance\count255 by 1
+\fi
+\immediate\write16{RESULT \the\count255}
+\bye

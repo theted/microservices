@@ -1,0 +1,9 @@
+; One hailstone step in Logo. The turtle stays home today.
+; (It's called hailstone because STEP is already a Logo primitive, for debugging.)
+to hailstone :n
+  if equalp remainder :n 2 0 [output :n / 2]
+  output 3 * :n + 1
+end
+
+print hailstone first readlist
+bye
