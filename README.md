@@ -26,7 +26,12 @@ Seeds stay below 10,000. The largest value any of them reaches is 27,114,424 (se
 
 Each language folder holds a single small program that reads n from stdin and prints the next number. That program is the whole point, and it's what the viewer opens on. None of the languages know about HTTP.
 
-The HTTP part is `runner/`, about 60 lines of Go and the only web server in the project. Every language image copies the same runner binary, which listens on :8000 and runs that language's program once per request. Because everyone is served and timed the same way, the leaderboard compares languages rather than web servers. The time it shows is the time it takes to run the program once: start up, read n, compute, print. That is why the leaderboard looks the way it does. Compiled programs take about 1–5 ms, scripting languages 5–100 ms, and the JVM languages about 80. The fastest program is in ALGOL 60, from 1960, and an emulated 6502 is right behind it. The tail is the funny part: a LibreOffice spreadsheet (about 320 ms) beats an Ansible playbook, Raku, Julia, Erlang, Elixir and, by a wide margin, PowerShell (over a second).
+The HTTP part is `runner/`, about 60 lines of Go and the only web server in the project. Every language image copies the same runner binary, which listens on :8000 and runs that language's program once per request. Because everyone is served and timed the same way, the leaderboard compares languages rather than web servers. The time it shows is the time it takes to run the program once: start up, read n, compute, print. That is why the leaderboard looks the way it does. Roughly, on an idle machine:
+- Compiled programs (Pascal, assembly, C, Fortran) finish in under a millisecond, with ALGOL 60 from 1960 and an emulated 6502 right behind them.
+- Scripting languages take 5–100 ms, and the JVM languages 30–40.
+- The tail is the funny part. A LibreOffice spreadsheet (about 110 ms) beats Julia, Erlang, Elixir and PowerShell. Last of all is an Ansible playbook, at about 370 ms.
+
+The numbers swing a lot when the machine is busy: during a build, PowerShell takes over a second.
 
 ```
 browser ──▶ gateway (nginx, 127.0.0.1:8080)
@@ -68,7 +73,7 @@ Some highlights:
 - **Lean 4** proves that its step function halves every even number, then compiles to C.
 - **Rockstar** is a power ballad: `Burn your heart with 10`.
 - **Emojicode** is written entirely in emoji, built with the language's last release, from 2019.
-- **Spreadsheet** opens a LibreOffice Calc document for every number, and still beats five real programming languages.
+- **Spreadsheet** opens a LibreOffice Calc document for every number, and still beats several real programming languages.
 - **Ansible** runs a playbook against localhost, doing the arithmetic in Jinja2.
 - **Maxima** is a computer algebra system where `step` is a reserved word, so its function is called `hailstone`.
 
