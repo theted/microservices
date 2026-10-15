@@ -1,8 +1,8 @@
 # Hailstone Relay
 
-A deliberately over-engineered microservice setup. Seventy-eight languages, each in its own container, pass one number around. Each one computes **one Collatz step**: even numbers are halved, odd ones become 3n + 1. The web client hands the current number to a random language, takes the answer, and passes it on until the number falls to 1. Then it starts again from a new random seed.
+A deliberately over-engineered microservice setup. Ninety-five languages, each in its own container, pass one number around. Each one computes **one Collatz step**: even numbers are halved, odd ones become 3n + 1. The web client hands the current number to a random language, takes the answer, and passes it on until the number falls to 1. Then it starts again from a new random seed.
 
-Nobody has proven that every starting number reaches 1. So this is an unsolved conjecture, spread over COBOL, INTERCAL, a spreadsheet and a few lines of assembly.
+Nobody has proven that every starting number reaches 1. So this is an unsolved conjecture, spread over COBOL, INTERCAL, a spreadsheet, an Ansible playbook and a picture.
 
 ## Why?
 
@@ -11,7 +11,7 @@ Why not!
 ## Run it
 
 ```sh
-docker compose up --build -d   # the first build takes a long while: 78 images, several GB
+docker compose up --build -d   # the first build takes a long while: 95 images, several GB
 open http://localhost:8080
 scripts/smoke.sh               # asks every language a few questions and checks the answers
 ```
@@ -26,7 +26,7 @@ Seeds stay below 10,000. The largest value any of them reaches is 27,114,424 (se
 
 Each language folder holds a single small program that reads n from stdin and prints the next number. That program is the whole point, and it's what the viewer opens on. None of the languages know about HTTP.
 
-The HTTP part is `runner/`, about 60 lines of Go and the only web server in the project. Every language image copies the same runner binary, which listens on :8000 and runs that language's program once per request. Because everyone is served and timed the same way, the leaderboard compares languages rather than web servers. The time it shows is the time it takes to run the program once: start up, read n, compute, print. That is why the leaderboard looks the way it does. Compiled binaries take 1–5 ms (assembly, C, Fortran and Rust lead), scripting languages take 5–100 ms, and the JVM languages about 80. The tail is the funny part: a LibreOffice spreadsheet (about 320 ms) beats Raku, Julia, Erlang, Elixir and, by a wide margin, PowerShell (over a second).
+The HTTP part is `runner/`, about 60 lines of Go and the only web server in the project. Every language image copies the same runner binary, which listens on :8000 and runs that language's program once per request. Because everyone is served and timed the same way, the leaderboard compares languages rather than web servers. The time it shows is the time it takes to run the program once: start up, read n, compute, print. That is why the leaderboard looks the way it does. Compiled programs take about 1–5 ms, scripting languages 5–100 ms, and the JVM languages about 80. The fastest program is in ALGOL 60, from 1960, and an emulated 6502 is right behind it. The tail is the funny part: a LibreOffice spreadsheet (about 320 ms) beats an Ansible playbook, Raku, Julia, Erlang, Elixir and, by a wide margin, PowerShell (over a second).
 
 ```
 browser ──▶ gateway (nginx, 127.0.0.1:8080)
@@ -44,15 +44,21 @@ browser ──▶ gateway (nginx, 127.0.0.1:8080)
 
 | Tier | Languages |
 |---|---|
-| Classic | Go, Python, PHP, C#, TypeScript, JavaScript, Rust, Java, Kotlin, C, C++, Ruby, Perl, Bash, Lua, Swift, Zig, Dart, Julia, R, Elixir, Erlang, OCaml, F#, PowerShell, Nim, Crystal, D, Tcl |
-| Esolang | ArnoldC, LOLCODE, Shakespeare, Brainfuck, Befunge-93, Whitespace, INTERCAL, Rockstar, Emojicode |
-| Retro | COBOL, Fortran 77, C64 BASIC, Forth, Pascal, ALGOL 68, Ada, Logo, dc, REXX, VB.NET |
-| Not a language | TeX, SQL, gawk, jq, sed, PostScript, Vim script, Spreadsheet, Nix, OpenTofu, m4 |
-| Mind-bender | Prolog, APL, x86-64 asm, Haskell, WebAssembly, Raku, Uiua, Lean 4, Standard ML |
+| Classic | Go, Python, PHP, C#, TypeScript, JavaScript, Rust, Java, Kotlin, C, C++, Objective-C, Ruby, Perl, Bash, Lua, Swift, Zig, Dart, Julia, R, Elixir, Erlang, OCaml, F#, PowerShell, Nim, Crystal, D, Tcl |
+| Esolang | ArnoldC, LOLCODE, Shakespeare, Brainfuck, Ook!, Befunge-93, Whitespace, INTERCAL, Rockstar, Emojicode, Piet |
+| Golf | Vyxal, Jelly, GolfScript |
+| Retro | COBOL, Fortran 77, ALGOL 60, SNOBOL4, C64 BASIC, 6502 assembly, Forth, Pascal, ALGOL 68, Ada, Logo, dc, REXX, VB.NET |
+| Not a language | TeX, SQL, gawk, jq, sed, PostScript, Vim script, Spreadsheet, Nix, OpenTofu, m4, Typst, gnuplot, Maxima, Ansible |
+| Mind-bender | Prolog, APL, J, K, x86-64 asm, RISC-V assembly, Haskell, WebAssembly, Raku, Uiua, Factor, Lean 4, Standard ML |
 | Lisp | Emacs Lisp, Guile Scheme, Clojure (babashka), Racket, Common Lisp, Janet, Hy, Fennel, PicoLisp |
 
 Some highlights:
 
+- **Piet**'s program is a picture: 13×8 coloured blocks, where every change of colour is a command. Odd numbers make the instruction pointer turn down the page.
+- **6502 assembly** runs on an emulated 6502, the CPU of the C64 and the NES. The chip has no multiply instruction, but it does have a decimal mode, so n stays in binary-coded decimal the whole way and tripling is literally n + n + n + 1.
+- **RISC-V assembly** is emulated by qemu, on an x86 machine.
+- **Golf**: Vyxal's whole program is `₂[½|3*›`, Jelly's is `×3‘$:2$Ḃ?` and GolfScript's is `~.2%{3*)}{2/}if`.
+- **Ook!** is the Brainfuck program translated for orang-utans: every command is a pair of `Ook.`, `Ook?` and `Ook!`.
 - **Brainfuck** runs on 8-bit cells, so it does long arithmetic one decimal digit at a time, ten cells per digit.
 - **sed** has no numbers at all. It halves and triples by text substitution, carrying remainders as marker characters.
 - **INTERCAL** reads its input spelled out in English (`TWO SEVEN`) and answers in Roman numerals, with overbars meaning ×1000.
@@ -63,6 +69,8 @@ Some highlights:
 - **Rockstar** is a power ballad: `Burn your heart with 10`.
 - **Emojicode** is written entirely in emoji, built with the language's last release, from 2019.
 - **Spreadsheet** opens a LibreOffice Calc document for every number, and still beats five real programming languages.
+- **Ansible** runs a playbook against localhost, doing the arithmetic in Jinja2.
+- **Maxima** is a computer algebra system where `step` is a reserved word, so its function is called `hailstone`.
 
 The commit before this layout (d4bb8a2) has the earlier version, where most languages ran their own HTTP server. It includes an HTTP server in raw assembly, one in pure Bash using its `accept` builtin, and one in Emojicode.
 
@@ -85,7 +93,7 @@ The commit before this layout (d4bb8a2) has the earlier version, where most lang
 
 ## Backlog
 
-- **Esolangs:** Piet (the program is a PNG), Ook!, Chef (the program is a recipe), Malbolge (no)
-- **Retro:** Smalltalk, Modula-2, QBasic in DOSBox, 6502 assembly on an emulated C64
-- **Mind-benders:** J, BQN, K, Agda, Idris, Gleam
-- **Not a language:** GNU Make, CSS (somehow), a Dockerfile that computes at build time
+- **Esolangs:** Chef (the program is a recipe, but the Perl interpreter only divides in floating point, so it can't tell odd from even without counting), Malbolge (no)
+- **Retro:** Simula, Smalltalk, Modula-2, QBasic in DOSBox
+- **Mind-benders:** BQN, Agda, Idris, Gleam
+- **Not a language:** GNU Make, CSS (somehow)

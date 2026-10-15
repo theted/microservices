@@ -81,6 +81,8 @@ services:
     build: { context: ./services/d, <<: *language }
   tcl:
     build: { context: ./services/tcl, <<: *language }
+  objc:
+    build: { context: ./services/objc, <<: *language }
 
   # Esolang
   arnoldc:
@@ -101,6 +103,18 @@ services:
     build: { context: ./services/rockstar, <<: *language }
   emojicode:
     build: { context: ./services/emojicode, <<: *language }
+  piet:
+    build: { context: ./services/piet, <<: *language }
+  ook:
+    build: { context: ./services/ook, <<: *language }
+
+  # Golf
+  vyxal:
+    build: { context: ./services/vyxal, <<: *language }
+  jelly:
+    build: { context: ./services/jelly, <<: *language }
+  golfscript:
+    build: { context: ./services/golfscript, <<: *language }
 
   # Retro
   cobol:
@@ -125,6 +139,12 @@ services:
     build: { context: ./services/rexx, <<: *language }
   vbnet:
     build: { context: ./services/vbnet, <<: *language }
+  mos6502:
+    build: { context: ./services/mos6502, <<: *language }
+  algol60:
+    build: { context: ./services/algol60, <<: *language }
+  snobol4:
+    build: { context: ./services/snobol4, <<: *language }
 
   # Not a language
   tex:
@@ -149,6 +169,14 @@ services:
     build: { context: ./services/opentofu, <<: *language }
   m4:
     build: { context: ./services/m4, <<: *language }
+  typst:
+    build: { context: ./services/typst, <<: *language }
+  gnuplot:
+    build: { context: ./services/gnuplot, <<: *language }
+  maxima:
+    build: { context: ./services/maxima, <<: *language }
+  ansible:
+    build: { context: ./services/ansible, <<: *language }
 
   # Mind-bender
   prolog:
@@ -169,6 +197,14 @@ services:
     build: { context: ./services/lean, <<: *language }
   sml:
     build: { context: ./services/sml, <<: *language }
+  riscv:
+    build: { context: ./services/riscv, <<: *language }
+  j:
+    build: { context: ./services/j, <<: *language }
+  k:
+    build: { context: ./services/k, <<: *language }
+  factor:
+    build: { context: ./services/factor, <<: *language }
 
   # Lisp
   elisp:

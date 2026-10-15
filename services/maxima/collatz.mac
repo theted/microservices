@@ -1,0 +1,5 @@
+/* One hailstone step in Maxima, a computer algebra system from 1982 that
+   would rather be solving integrals. It's called hailstone because step is
+   a reserved word here: it's part of the for ... step ... loop. */
+hailstone(n) := if evenp(n) then n / 2 else 3 * n + 1$
+print(hailstone(n))$
