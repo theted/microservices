@@ -1,0 +1,9 @@
+# One hailstone step as an Ansible playbook: infrastructure automation,
+# pointed at localhost, doing arithmetic in Jinja2.
+- name: Take one hailstone step
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Halve it, or triple it and add one
+      ansible.builtin.debug:
+        msg: "{{ (n | int) // 2 if (n | int) is even else 3 * (n | int) + 1 }}"

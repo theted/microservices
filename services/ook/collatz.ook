@@ -1,0 +1,118 @@
+# One hailstone step in Ook!, which is Brainfuck for orang-utans: every
+# command is a pair of Ooks. This is the Brainfuck service's program, word
+# for word, so it too does long arithmetic one decimal digit at a time.
+
+# One hailstone step in Brainfuck
+# with eight bit cells and no numbers bigger than nine anywhere
+# Every digit is a block of ten cells and the arithmetic is long hand
+# just like at school
+# Read the digits into blocks of ten cells each: marker / digit / carry / scratch
+# Block one is a leading zero so that tripling always has room to grow
+Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook?
+Ook. Ook? Ook. Ook? Ook. Ook. Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook?
+Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook! Ook! Ook!
+Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook!
+Ook! Ook! Ook! Ook? Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook!
+Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook!
+Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook!
+Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook!
+Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook!
+Ook? Ook. Ook. Ook. Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook?
+Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook! Ook! Ook! Ook! Ook!
+Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook!
+Ook? Ook!
+# Parity of the last digit: copy it and toggle two flags once per unit
+Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook.
+Ook? Ook. Ook? Ook. Ook! Ook? Ook! Ook! Ook. Ook? Ook. Ook? Ook. Ook. Ook. Ook?
+Ook. Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook! Ook. Ook? Ook. Ook? Ook. Ook?
+Ook! Ook? Ook! Ook! Ook? Ook. Ook? Ook. Ook? Ook. Ook. Ook. Ook. Ook? Ook. Ook?
+Ook. Ook? Ook? Ook! Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook?
+Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook. Ook? Ook. Ook? Ook. Ook? Ook.
+Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook.
+Ook! Ook? Ook! Ook! Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook?
+Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook! Ook? Ook! Ook! Ook. Ook? Ook. Ook?
+Ook. Ook. Ook? Ook. Ook? Ook. Ook? Ook! Ook. Ook? Ook! Ook? Ook! Ook! Ook? Ook.
+Ook. Ook. Ook. Ook? Ook? Ook! Ook. Ook? Ook! Ook? Ook! Ook! Ook? Ook. Ook. Ook.
+Ook. Ook? Ook? Ook! Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook.
+Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook!
+# Odd: triple and add one from the right with a carry of zero to two
+Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook?
+Ook. Ook? Ook. Ook? Ook! Ook? Ook! Ook! Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook.
+Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook. Ook.
+Ook? Ook. Ook? Ook. Ook! Ook? Ook. Ook? Ook! Ook? Ook! Ook! Ook. Ook? Ook. Ook?
+Ook. Ook. Ook. Ook. Ook. Ook. Ook? Ook. Ook? Ook. Ook? Ook! Ook. Ook? Ook! Ook?
+Ook! Ook! Ook. Ook? Ook. Ook. Ook? Ook. Ook? Ook! Ook. Ook? Ook. Ook? Ook. Ook.
+Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook.
+Ook. Ook. Ook? Ook. Ook! Ook? Ook! Ook! Ook. Ook? Ook! Ook! Ook! Ook? Ook. Ook?
+Ook. Ook. Ook. Ook? Ook. Ook? Ook? Ook! Ook. Ook? Ook! Ook? Ook. Ook. Ook! Ook?
+Ook! Ook! Ook? Ook. Ook. Ook. Ook. Ook? Ook? Ook! Ook. Ook? Ook. Ook. Ook. Ook?
+Ook. Ook? Ook? Ook! Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook!
+Ook. Ook? Ook! Ook? Ook! Ook! Ook? Ook! Ook. Ook? Ook! Ook? Ook! Ook! Ook? Ook.
+Ook? Ook. Ook? Ook. Ook? Ook. Ook. Ook. Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook?
+Ook? Ook! Ook. Ook? Ook! Ook? Ook! Ook! Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook.
+Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook.
+Ook? Ook. Ook? Ook. Ook. Ook. Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook?
+Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook?
+Ook. Ook? Ook? Ook! Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook.
+Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook.
+Ook? Ook. Ook? Ook. Ook? Ook! Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook?
+Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook! Ook? Ook. Ook? Ook. Ook?
+Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook?
+Ook? Ook! Ook. Ook? Ook. Ook? Ook. Ook? Ook? Ook!
+# Even: halve from the left and pass the remainder on as five
+Ook. Ook? Ook! Ook? Ook! Ook! Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook.
+Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook.
+Ook? Ook. Ook! Ook? Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook.
+Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook! Ook. Ook? Ook. Ook? Ook. Ook?
+Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook! Ook?
+Ook. Ook? Ook! Ook? Ook! Ook! Ook. Ook? Ook. Ook? Ook. Ook. Ook. Ook? Ook. Ook.
+Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook! Ook. Ook? Ook. Ook? Ook. Ook? Ook! Ook?
+Ook! Ook! Ook? Ook. Ook? Ook. Ook? Ook. Ook. Ook. Ook. Ook? Ook. Ook? Ook. Ook?
+Ook? Ook! Ook. Ook? Ook. Ook? Ook. Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook! Ook?
+Ook! Ook! Ook. Ook? Ook. Ook? Ook! Ook? Ook! Ook! Ook. Ook? Ook. Ook? Ook. Ook.
+Ook? Ook. Ook? Ook. Ook? Ook! Ook. Ook? Ook! Ook? Ook! Ook! Ook? Ook. Ook. Ook.
+Ook. Ook? Ook? Ook! Ook. Ook? Ook! Ook? Ook! Ook! Ook? Ook. Ook. Ook. Ook. Ook?
+Ook? Ook! Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook! Ook. Ook? Ook. Ook?
+Ook. Ook? Ook! Ook? Ook! Ook! Ook? Ook! Ook? Ook. Ook! Ook? Ook! Ook! Ook? Ook.
+Ook? Ook. Ook? Ook. Ook? Ook. Ook! Ook! Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook?
+Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook.
+Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook!
+Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook! Ook? Ook! Ook! Ook! Ook! Ook. Ook?
+Ook. Ook? Ook. Ook. Ook? Ook. Ook? Ook. Ook? Ook! Ook. Ook? Ook. Ook? Ook! Ook?
+Ook! Ook! Ook? Ook. Ook? Ook. Ook. Ook. Ook. Ook? Ook. Ook? Ook? Ook! Ook? Ook.
+Ook! Ook? Ook! Ook! Ook? Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook.
+Ook. Ook? Ook? Ook! Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook?
+Ook. Ook? Ook. Ook? Ook? Ook! Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook? Ook!
+# Skip leading zero digits by passing a flag along until a digit is not zero
+Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook.
+Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook! Ook? Ook? Ook.
+Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook.
+Ook? Ook. Ook? Ook! Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook?
+Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook?
+Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook. Ook! Ook? Ook! Ook!
+Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook.
+Ook! Ook? Ook! Ook! Ook. Ook? Ook. Ook? Ook. Ook. Ook. Ook? Ook. Ook? Ook. Ook.
+Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook! Ook. Ook? Ook. Ook? Ook. Ook?
+Ook. Ook? Ook! Ook? Ook! Ook! Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook. Ook.
+Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook? Ook! Ook? Ook. Ook. Ook. Ook? Ook.
+Ook! Ook? Ook. Ook? Ook! Ook! Ook? Ook. Ook! Ook? Ook! Ook! Ook? Ook! Ook? Ook!
+Ook. Ook? Ook! Ook? Ook! Ook! Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook?
+Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook?
+Ook. Ook? Ook. Ook? Ook. Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook.
+Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook.
+Ook? Ook. Ook? Ook. Ook? Ook! Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook?
+Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook?
+Ook. Ook? Ook. Ook? Ook? Ook!
+# Print the rest as ASCII digits and a newline
+Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook.
+Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook.
+Ook? Ook. Ook? Ook. Ook? Ook. Ook! Ook? Ook. Ook? Ook. Ook. Ook. Ook. Ook. Ook.
+Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook.
+Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook.
+Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook.
+Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook.
+Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook.
+Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook! Ook. Ook. Ook? Ook. Ook?
+Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook. Ook? Ook? Ook!
+Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook.
+Ook. Ook. Ook. Ook. Ook! Ook.

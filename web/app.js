@@ -409,11 +409,20 @@ async function showFile(index) {
   const code = $("source-code");
   code.className = "";
   code.textContent = "Loading…";
-  $("source-gutter").textContent = "";
+  const gutter = $("source-gutter");
+  gutter.textContent = "";
+  gutter.hidden = file.name.endsWith(".png");
+  const url = `/src/${file.path.split("/").map(encodeURIComponent).join("/")}`;
+
+  // Piet programs are pictures: show the picture, big and sharp.
+  if (file.name.endsWith(".png")) {
+    code.replaceChildren(el("img", { class: "program-image", src: url, alt: `${file.name}, a Piet program` }));
+    return;
+  }
 
   let text;
   try {
-    const response = await fetch(`/src/${file.path.split("/").map(encodeURIComponent).join("/")}`);
+    const response = await fetch(url);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     text = (await response.text()).replace(/\n$/, "");
   } catch {
@@ -425,7 +434,7 @@ async function showFile(index) {
   const highlighted = language ? await loadGrammar(language) : false;
   if (token !== viewer.token) return;
 
-  $("source-gutter").textContent = text.split("\n").map((_, i) => i + 1).join("\n");
+  gutter.textContent = text.split("\n").map((_, i) => i + 1).join("\n");
   if (basename.endsWith(".ws")) {
     code.className = "whitespace";
     code.innerHTML = visibleWhitespace(text);

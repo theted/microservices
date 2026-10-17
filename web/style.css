@@ -557,6 +557,13 @@ button.lang:hover {
   tab-size: 4;
 }
 
+.program-image {
+  display: block;
+  width: 520px;
+  max-width: 100%;
+  image-rendering: pixelated;
+}
+
 /* Whitespace: the visible words are comments, the blanks are the program. */
 code.whitespace {
   color: var(--muted);

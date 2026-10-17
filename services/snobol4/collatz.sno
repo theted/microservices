@@ -1,0 +1,7 @@
+*  One hailstone step in SNOBOL4 (1962). Labels sit in column one, statements
+*  are indented, and :S(...) is "on success, go to".
+        N = INPUT
+        EQ(REMDR(N, 2), 0)                            :S(EVEN)
+        OUTPUT = 3 * N + 1                            :(END)
+EVEN    OUTPUT = N / 2
+END
